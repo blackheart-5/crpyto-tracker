@@ -64,7 +64,7 @@ function CryptoChart({ crypto }) {
 
   return (
     <div className="chart-container">
-      <h2>{crypto.name} Price Chart</h2>
+      <h2>{crypto.name} Price Tracking</h2>
       <Line 
         data={chartData} 
         options={{
