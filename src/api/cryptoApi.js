@@ -26,6 +26,39 @@ export const fetchCryptoData = async () => {
   }
 };
 
+// export const fetchCryptoData = async () => {
+//   try {
+//     const response = await axios.get(`${API_URL}/coins/markets`, {
+//       params: {
+//         vs_currency: 'usd',
+//         order: 'market_cap_desc',
+//         per_page: 10,
+//         page: 1,
+//         sparkline: false
+//       },
+//       timeout: 10000 // Set a timeout of 10 seconds
+//     });
+//     return response.data;
+//   } catch (error) {
+//     if (error.response) {
+//       // The request was made and the server responded with a status code
+//       // that falls out of the range of 2xx
+//       throw new Error(`API Error: ${error.response.status} - ${error.response.data.error}`);
+//     } else if (error.request) {
+//       // The request was made but no response was received
+//       throw new Error('Network Error: No response received from the server. Please check your internet connection.');
+//     } else {
+//       // Something happened in setting up the request that triggered an Error
+//       throw new Error(`Request Error: ${error.message}`);
+//     }
+//   }
+// };
+
+
+
+
+
+
 export const fetchCryptoHistory = async (id) => {
   try {
     console.log(`Fetching history for crypto id: ${id}`);
@@ -46,3 +79,6 @@ export const fetchCryptoHistory = async (id) => {
     throw error;
   }
 };
+
+
+

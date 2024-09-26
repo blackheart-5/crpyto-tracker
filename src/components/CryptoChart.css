@@ -1,8 +1,32 @@
-.chart-container {
+/* .chart-container {
     flex: 2;
     max-width: 800px;
   }
   
   .chart-container h2 {
     margin-bottom: 20px;
+  } */
+
+
+  .crypto-chart {
+    width: 100%;
+    height: 400px;
+  }
+  
+  .crypto-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .crypto-chart-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .crypto-chart-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #2ecc71;
   }

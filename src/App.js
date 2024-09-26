@@ -58,3 +58,78 @@ function App() {
 }
 
 export default App;
+
+
+// import React, { useState, useEffect } from 'react';
+// import { fetchCryptoData } from './api/cryptoApi';
+// import CryptoList from './components/CryptoList';
+// import CryptoChart from './components/CryptoChart';
+// import './App.css';
+
+// function App() {
+//   const [cryptoData, setCryptoData] = useState([]);
+//   const [selectedCrypto, setSelectedCrypto] = useState(null);
+//   const [error, setError] = useState(null);
+//   const [isLoading, setIsLoading] = useState(true);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setIsLoading(true);
+//         const data = await fetchCryptoData();
+//         setCryptoData(data);
+//         setError(null);
+//       } catch (err) {
+//         console.error('Error in fetchData:', err);
+//         setError(err.message || 'An unexpected error occurred. Please try again later.');
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   const handleSelectCrypto = (crypto) => {
+//     setSelectedCrypto(crypto);
+//   };
+
+//   return (
+//     <div className="app">
+//       <header className="app-header">
+//         <h1>Crypto Tracker</h1>
+//       </header>
+//       <main className="app-main">
+//         {isLoading ? (
+//           <div className="loading">Loading cryptocurrency data...</div>
+//         ) : error ? (
+//           <div className="error-message">
+//             <h2>Error</h2>
+//             <p>{error}</p>
+//             <button onClick={() => window.location.reload()}>Retry</button>
+//           </div>
+//         ) : (
+//           <>
+//             <section className="crypto-list-section">
+//               <h2>Cryptocurrencies</h2>
+//               <CryptoList cryptoData={cryptoData} onSelectCrypto={handleSelectCrypto} />
+//             </section>
+//             <section className="crypto-chart-section">
+//               <h2>Price Chart</h2>
+//               {selectedCrypto ? (
+//                 <CryptoChart crypto={selectedCrypto} />
+//               ) : (
+//                 <p>Select a cryptocurrency to view its chart</p>
+//               )}
+//             </section>
+//           </>
+//         )}
+//       </main>
+//       <footer className="app-footer">
+//         <p>&copy; 2024 Crypto Tracker. All rights reserved.</p>
+//       </footer>
+//     </div>
+//   );
+// }
+
+// export default App;
