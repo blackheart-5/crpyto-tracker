@@ -1,0 +1,45 @@
+.crypto-list {
+    flex: 1;
+    margin-right: 20px;
+    max-height: 600px;
+    overflow-y: auto;
+  }
+  
+  .crypto-list h2 {
+    margin-bottom: 10px;
+  }
+  
+  .crypto-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .crypto-list li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+  
+  .crypto-list li:hover, .crypto-list li.selected {
+    background-color: #f0f0f0;
+  }
+  
+  .crypto-list li img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  .crypto-list li span {
+    margin-right: 10px;
+  }
+  
+  .crypto-list .positive {
+    color: green;
+  }
+  
+  .crypto-list .negative {
+    color: red;
+  }
