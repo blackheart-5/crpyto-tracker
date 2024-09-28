@@ -12,6 +12,7 @@ import {
 } from 'chart.js';
 import { fetchCryptoHistory } from '../api/cryptoApi';
 import './CryptoChart.css';
+import './CryptoList.js'
 
 ChartJS.register(
   CategoryScale,
@@ -40,11 +41,11 @@ function CryptoChart({ crypto }) {
           labels,
           datasets: [
             {
-              label: `${crypto.name} Price`,
+              label: ` ${crypto.name} Price`,
               data: prices,
-              borderColor: 'rgb(75, 192, 192)',
+              borderColor: 'rgb(0, 192, 0)',
               backgroundColor: 'rgba(75, 192, 192, 0.5)',
-              tension: 0.1
+              tension: 1
             }
           ]
         });
@@ -65,7 +66,7 @@ function CryptoChart({ crypto }) {
   return (
     <div className="chart-container">
       <h2>{crypto.name} Price Tracking</h2>
-      <Line 
+      <Line
         data={chartData} 
         options={{
           responsive: true,
@@ -75,7 +76,7 @@ function CryptoChart({ crypto }) {
             },
             title: {
               display: true,
-              text: `${crypto.name} Price Last 30 Days`
+              text: ` ${crypto.name} Price Last 30 Days`
             }
           }
         }} 

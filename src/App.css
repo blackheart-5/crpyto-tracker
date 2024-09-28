@@ -121,35 +121,87 @@ h2 {
 
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f0f2f5;
-  margin: 0;
+  background-color: #116ee7;
+  margin:0;
   padding: 0;
 }
 
-.app {
+
+.App {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  flex-direction:column;
+  min-height: 500vh;
 }
 
-.app-header {
+.App-header {
   background-color: #2c3e50;
   color: white;
-  padding: 1rem;
+  padding: 2.5rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content:center;
+
 }
 
-.app-header h1 {
-  margin: 0;
+
+
+.App-header nav ul td {
+  font-family: 'Arial', sans-serif;
+  padding:0.5rem;
+
   font-size: 1.5rem;
+  list-style-type: disc ;
+  text-decoration: wavy;
+  text-decoration-color: #000205;
+  display: flex;
+  text-align: right;
+  text-spacing-trim: 5rem;
 }
 
-.app-main {
-  display: flex;
-  flex: 1;
-  padding: 1rem;
+.App-header nav ul {
+  display:flex;
+  margin-right: 8px;
+  list-style-type: none;
+  margin-top: 10px;
+}
+
+.App-header nav{
+  color: white;
+  text-align: left;
+  text-decoration: none;
+  
+}
+
+
+.App-header nav ul li a tr{
+  font-size: 5rem;
+  text-align: left;
+}
+
+.App-header h1 {
+  margin: 0rem;
+  font-size: 5rem;
+  text-align: right;
+  /* text-decoration: wavy;
+  text-decoration-style: dotted; */
+}
+
+
+
+
+
+.App-main p {
+  margin: 2;
+  font-size: 1.5rem;
+  text-align: center;
+  text-decoration: wavy;
+  text-decoration-style: dotted;
+}
+
+
+.App-main {
+  display: table-row;
+  table-layout:auto;
+  padding: rem;
 }
 
 .crypto-container {
@@ -270,4 +322,16 @@ body {
 
 .chat-input button:hover {
   background-color: #27ae60;
+}
+
+
+
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 0rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }

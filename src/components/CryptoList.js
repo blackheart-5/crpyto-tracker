@@ -4,6 +4,7 @@ import './CryptoList.css';
 function CryptoList({ cryptoData, onSelectCrypto, selectedCrypto }) {
   return (
     <div className="crypto-list">
+      
       <h2>Top Cryptocurrencies</h2>
       <ul>
         {cryptoData.map((crypto) => (
