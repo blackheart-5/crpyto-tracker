@@ -130,7 +130,7 @@ body {
 .App {
   display: flex;
   flex-direction:column;
-  min-height: 500vh;
+  max-height: 100vh;
 }
 
 .App-header {
@@ -249,7 +249,7 @@ body {
 /* CryptoChart.css */
 .crypto-chart {
   background-color: white;
-  border-radius: 8px;
+  border-radius: 0px;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   flex: 2;

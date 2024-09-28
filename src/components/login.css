@@ -1,28 +1,28 @@
 .login-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: flex;
     align-items: center;
     justify-content: center;
-    height: 10vh;
-    background-color: #f0f2f5;
-    margin: 10rem;
+    height: 60vh;
+    background-color: #116ee7;
+    margin: 2rem;
   }
   
   .login-form {
     background-color: white;
-    padding: 2rem;
+    padding: 10rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 150%;
     max-width: 60rem;
   }
-  
+
   .login-form h2 {
     text-align: center;
     color: #1a202c;
     margin-bottom: 1.5rem;
   }
-  
+
   .login-form input {
     width: 100%;
     padding: 0.75rem;

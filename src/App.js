@@ -108,49 +108,63 @@
 
 // export default App;
 
-
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
 import CryptoList from './components/CryptoList';
 import CryptoChart from './components/CryptoChart';
 import Login from './components/Login';
+import SignUp from './components/signup.js';
 import { fetchCryptoData } from './api/cryptoApi';
 import authService from './components/authservice';
 import './App.css';
 
 function App() {
-  const [user, setUser] = useState(authService.getCurrentUser());
+  // const [user, setUser] = useState(authService.getCurrentUser());
+  const [user, setUser] = useState(() => {
+    const currentUser = authService.getCurrentUser();
+    console.log('Initial user state:', currentUser);
+    return currentUser;
+  });
   const [cryptoData, setCryptoData] = useState([]);
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log('useEffect called, user:', user);
     const fetchData = async () => {
       try {
+        console.log('Fetching data...');
         setIsLoading(true);
         setError(null);
         const data = await fetchCryptoData();
+        console.log('Data fetched:', data);
         setCryptoData(data);
         if (data.length > 0) {
           setSelectedCrypto(data[0]);
         }
-        setIsLoading(false);
       } catch (err) {
         console.error('Error in fetchData:', err);
         setError(`Failed to fetch crypto data: ${err.message}`);
+      } finally {
+        console.log('Setting isLoading to false');
         setIsLoading(false);
       }
     };
-
+  
     if (user) {
       fetchData();
-      const interval = setInterval(fetchData, 600000); // Refresh every 10 minutes
-      return () => clearInterval(interval);
+    } else {
+      console.log('No user, setting isLoading to false');
+      setIsLoading(false);
     }
   }, [user]);
 
   const handleLogin = (user) => {
+    setUser(user);
+  };
+
+  const handleSignUp = (user) => {
     setUser(user);
   };
 
@@ -167,12 +181,21 @@ function App() {
       <div className="App">
         <header className="App-header">
           <h1>CryptoTracker</h1>
-          {user && (
+          {user ? (
             <div className='header_nav'>
               <nav>
                 <ul>
-                  <li><a href='/dashboard'>Home</a></li>
+                  <li><Link to='/dashboard'>Home</Link></li>
                   <li><button onClick={handleLogout}>Logout</button></li>
+                </ul>
+              </nav>
+            </div>
+          ) : (
+            <div className='header_nav'>
+              <nav>
+                <ul>
+                  <li><Link to='/login'>Login</Link></li>
+                  <li><Link to='/signup'>Sign Up</Link></li>
                 </ul>
               </nav>
             </div>
@@ -182,6 +205,7 @@ function App() {
         <main className="App-main">
           <Routes>
             <Route path="/login" element={!user ? <Login onLogin={handleLogin} /> : <Navigate to="/dashboard" />} />
+            <Route path="/signup" element={!user ? <SignUp onSignUp={handleSignUp} /> : <Navigate to='login' />} />
             <Route 
               path="/dashboard" 
               element={
@@ -193,6 +217,7 @@ function App() {
                       onSelectCrypto={setSelectedCrypto}
                       selectedCrypto={selectedCrypto}
                     />
+                    <p>Price Tracking for {selectedCrypto.name}!</p>
                     {selectedCrypto && (
                       <CryptoChart 
                         crypto={selectedCrypto}

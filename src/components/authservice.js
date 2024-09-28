@@ -1,11 +1,11 @@
-const fakeUsers = [
+let users = [
   { email: 'user@example.com', password: 'password123' },
   { email: 'admin@example.com', password: 'admin123' }
 ];
 
 const authService = {
   login: (email, password) => {
-    const user = fakeUsers.find(u => u.email === email && u.password === password);
+    const user = users.find(u => u.email === email && u.password === password);
     if (user) {
       localStorage.setItem('user', JSON.stringify({ email: user.email }));
       return Promise.resolve({ email: user.email });
@@ -24,6 +24,15 @@ const authService = {
 
   isAuthenticated: () => {
     return !!localStorage.getItem('user');
+  },
+
+  signUp: (email, password) => {
+    if (users.some(u => u.email === email)) {
+      return Promise.reject('User already exists');
+    }
+    users.push({ email, password });
+    localStorage.setItem('user', JSON.stringify({ email }));
+    return Promise.resolve({ email });
   }
 };
 
