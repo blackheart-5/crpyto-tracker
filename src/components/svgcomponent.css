@@ -1,0 +1,7 @@
+.grad {
+    transition: stop-color 0.3s ease;
+  }
+  
+  svg:hover .grad {
+    stop-color: red; /* Changes the gradient on hover */
+  }

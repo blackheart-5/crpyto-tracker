@@ -14,7 +14,7 @@ const SignUp = ({ onSignUp }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const user = await authService.signUp(email, password);
+      const user = await authService.signUp(email, password, name);
       onSignUp(user);
       navigate('/dashboard');
     } catch (err) {
@@ -25,22 +25,43 @@ const SignUp = ({ onSignUp }) => {
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Sign Up for CryptoTracker</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Sign Up</button>
+        <nav>
+          <ul>
+            <h2>Sign Up</h2>
+          </ul>
+          <ul>
+
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+          </ul>
+          <ul>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </ul>
+          <ul>  
+            <input
+              type="name"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </ul>
+          <ul>
+            <button type="submit">Sign Up</button>
+          </ul>
+        </nav>
+
         {error && <p className="error-message">{error}</p>}
       </form>
     </div>

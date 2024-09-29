@@ -1,14 +1,14 @@
 let users = [
-  { email: 'user@example.com', password: 'password123' },
-  { email: 'admin@example.com', password: 'admin123' }
+  { email: 'user@example.com', password: 'password123', name:'ama' },
+  { email: 'admin@example.com', password: 'admin123', name:'ampo' }
 ];
 
 const authService = {
   login: (email, password) => {
     const user = users.find(u => u.email === email && u.password === password);
     if (user) {
-      localStorage.setItem('user', JSON.stringify({ email: user.email }));
-      return Promise.resolve({ email: user.email });
+      localStorage.setItem('user', JSON.stringify({ email: user.email, name:user.name }));
+      return Promise.resolve({ email: user.email, name:user.name });
     }
     return Promise.reject('Invalid email or password');
   },
@@ -26,13 +26,13 @@ const authService = {
     return !!localStorage.getItem('user');
   },
 
-  signUp: (email, password) => {
+  signUp: (email, password, name) => {
     if (users.some(u => u.email === email)) {
       return Promise.reject('User already exists');
     }
-    users.push({ email, password });
-    localStorage.setItem('user', JSON.stringify({ email }));
-    return Promise.resolve({ email });
+    users.push({ email, password, name });
+    localStorage.setItem('user', JSON.stringify({ email, name }));
+    return Promise.resolve({ email, name });
   }
 };
 
