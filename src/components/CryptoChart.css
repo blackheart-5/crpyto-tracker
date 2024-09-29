@@ -4,7 +4,7 @@
     background-color: black;
     margin: 6rem;
     margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 5rem;
     
 
   }
@@ -16,7 +16,7 @@
 
 
   .crypto-chart {
-    width: 80%;
+    width: 50%;
     height: 700px;
     align-content: center;
 

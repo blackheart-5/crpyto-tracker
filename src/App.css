@@ -63,8 +63,8 @@ svg {
 
 .App-header {
   background: radial-gradient(circle, rgb(79, 79, 85) 0%, #042e52 100%);
-  color: white;
-  text-shadow: 2px 2px #ff0000;
+  color: rgb(140, 255, 150);
+  text-shadow: 6px 6px #000000;
   padding: 10px 20px;
   display: flex;
   align-items: center; /* Aligns items vertically */
@@ -322,7 +322,7 @@ p img {
 
 .footer {
   background-color: #333;
-  color: white;
+  color: rgb(140, 255, 150);
   text-align: center;
   padding: 0rem;
   position: fixed;

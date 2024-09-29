@@ -6,6 +6,7 @@ import './signup.js'
 
 
 const Login = ({ onLogin }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,7 +15,7 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const user = await authService.login(email, password);
+      const user = await authService.login(email, password, name);
       onLogin(user);
       navigate('/dashboard');
     } catch (err) {
@@ -38,6 +39,14 @@ const Login = ({ onLogin }) => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        <input
+          type="name"
+          placeholder="Username"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
         />
           <ul>

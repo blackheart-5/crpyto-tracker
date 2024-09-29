@@ -106,7 +106,7 @@ function App() {
                 element={
                   user ? (
                     <>
-                      <p>Welcome {user.name}!</p>
+                      <p>Welcome {user.name} to the world of Trading</p>
                       <CryptoList 
                         cryptoData={cryptoData} 
                         onSelectCrypto={setSelectedCrypto}
