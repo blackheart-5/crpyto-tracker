@@ -80,7 +80,7 @@ function App() {
               <div className='header_nav'>
                 <nav>
                   <ul>
-                    <li><Link to='/dashboard'>Home</Link></li>
+                    <li><Link to='https://www.investopedia.com/learn-how-to-trade-the-market-in-5-steps-4692230'>Learn to Trade</Link></li>
                     <li><button onClick={handleLogout}>Logout</button></li>
                   </ul>
                 </nav>
