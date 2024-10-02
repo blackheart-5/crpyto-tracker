@@ -36,3 +36,4 @@ Set up environment variables: Create a .env file in the root of your project to 
 Run the application:
 
 npm start
+![image](https://github.com/user-attachments/assets/cc16dfa4-8dc6-479c-aab4-de04ae358f06)
