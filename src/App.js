@@ -5,9 +5,11 @@ import {
   Routes,
   Navigate,
   Link,
+  NavLink,
 } from 'react-router-dom';
 import CryptoList from './components/CryptoList';
 import CryptoChart from './components/CryptoChart';
+import Portfolio from './components/Portfolio';
 import Login from './components/Login';
 import SignUp from './components/signup';
 import { fetchCryptoData } from './api/cryptoApi';
@@ -104,6 +106,8 @@ function App() {
           <nav>
             {user ? (
               <>
+                <NavLink to="/dashboard">Market</NavLink>
+                <NavLink to="/portfolio">Portfolio</NavLink>
                 <a
                   href="https://www.investopedia.com/learn-how-to-trade-the-market-in-5-steps-4692230"
                   target="_blank"
@@ -158,6 +162,23 @@ function App() {
                     onRefresh={() => loadData({ silent: true })}
                     refreshing={refreshing}
                   />
+                )
+              }
+            />
+            <Route
+              path="/portfolio"
+              element={
+                !user ? (
+                  <Navigate to="/login" />
+                ) : isLoading ? (
+                  <div className="loading">Loading market data…</div>
+                ) : error ? (
+                  <div className="error">
+                    <p>{error}</p>
+                    <button onClick={() => loadData()}>Try again</button>
+                  </div>
+                ) : (
+                  <Portfolio user={user} cryptoData={cryptoData} />
                 )
               }
             />

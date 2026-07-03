@@ -71,6 +71,12 @@
   border-color: var(--border);
 }
 
+.App-header nav a.active {
+  color: var(--accent);
+  border-color: var(--border);
+  background: var(--bg-card);
+}
+
 /* ---------- Main ---------- */
 .App-main {
   flex: 1;
