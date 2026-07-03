@@ -1,141 +1,178 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  Link,
+} from 'react-router-dom';
 import CryptoList from './components/CryptoList';
 import CryptoChart from './components/CryptoChart';
 import Login from './components/Login';
-import SignUp from './components/signup.js';
+import SignUp from './components/signup';
 import { fetchCryptoData } from './api/cryptoApi';
 import authService from './components/authservice';
 import './App.css';
-import MySvgComponent from './components/MySvgComponent.js';
-import logo from "./components/images.jpg"
+
+const REFRESH_INTERVAL = 60000; // 60s — stays under CoinGecko's free rate limit
+
+function Dashboard({ user, cryptoData, selectedCrypto, onSelectCrypto, lastUpdated, onRefresh, refreshing }) {
+  return (
+    <>
+      <div className="dashboard-bar">
+        <p className="welcome">
+          Welcome back, <strong>{user.name}</strong>
+        </p>
+        <div className="dashboard-bar__meta">
+          {lastUpdated && (
+            <span className="updated">
+              Updated {lastUpdated.toLocaleTimeString()}
+            </span>
+          )}
+          <button className="refresh-btn" onClick={onRefresh} disabled={refreshing}>
+            {refreshing ? 'Refreshing…' : '↻ Refresh'}
+          </button>
+        </div>
+      </div>
+
+      <div className="dashboard-grid">
+        <CryptoList
+          cryptoData={cryptoData}
+          onSelectCrypto={onSelectCrypto}
+          selectedCrypto={selectedCrypto}
+        />
+        {selectedCrypto && <CryptoChart crypto={selectedCrypto} />}
+      </div>
+    </>
+  );
+}
 
 function App() {
-  const [user, setUser] = useState(() => {
-    const currentUser = authService.getCurrentUser();
-    console.log('Initial user state:', currentUser);
-    return currentUser;
-  });
+  const [user, setUser] = useState(() => authService.getCurrentUser());
   const [cryptoData, setCryptoData] = useState([]);
   const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const loadData = useCallback(async ({ silent } = {}) => {
+    if (silent) setRefreshing(true);
+    else setIsLoading(true);
+    setError(null);
+    try {
+      const data = await fetchCryptoData();
+      setCryptoData(data);
+      setSelectedCrypto((prev) => {
+        if (!prev) return data[0] ?? null;
+        return data.find((c) => c.id === prev.id) ?? prev;
+      });
+      setLastUpdated(new Date());
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+      setRefreshing(false);
+    }
+  }, []);
 
   useEffect(() => {
-    console.log('useEffect called, user:', user);
-    const fetchData = async () => {
-      try {
-        console.log('Fetching data...');
-        setIsLoading(true);
-        setError(null);
-        const data = await fetchCryptoData();
-        console.log('Data fetched:', data);
-        setCryptoData(data);
-        if (data.length > 0) {
-          setSelectedCrypto(data[0]);
-        }
-      } catch (err) {
-        console.error('Error in fetchData:', err);
-        setError(`Failed to fetch crypto data: ${err.message}`);
-      } finally {
-        console.log('Setting isLoading to false');
-        setIsLoading(false);
-      }
-    };
-  
-    if (user) {
-      fetchData();
-    } else {
-      console.log('No user, setting isLoading to false');
+    if (!user) {
       setIsLoading(false);
+      return;
     }
-  }, [user]);
-
-  const handleLogin = (loggedInUser) => {
-    setUser(loggedInUser);
-  };
-
-  const handleSignUp = (newUser) => {
-    setUser(newUser);
-  };
+    loadData();
+    const id = setInterval(() => loadData({ silent: true }), REFRESH_INTERVAL);
+    return () => clearInterval(id);
+  }, [user, loadData]);
 
   const handleLogout = () => {
     authService.logout();
     setUser(null);
+    setCryptoData([]);
+    setSelectedCrypto(null);
   };
 
-  if (isLoading) return <div className="loading">Loading...</div>;
-  if (error) return <div className="error">{error}</div>;
-
   return (
-    <>
-      <MySvgComponent/>
-      <Router>
-        <div className="App">
-          <header className="App-header">
-            <div className='header-block'>
-              <h1><img src={logo} alt='CryptoTracker'/>CryptoTracker</h1>
-            </div>
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <Link to={user ? '/dashboard' : '/login'} className="brand">
+            <span className="brand__mark">₿</span>
+            <span className="brand__name">CryptoTracker</span>
+          </Link>
+          <nav>
             {user ? (
-              <div className='header_nav'>
-                <nav>
-                  <ul>
-                    <li><Link to='https://www.investopedia.com/learn-how-to-trade-the-market-in-5-steps-4692230'>Learn to Trade</Link></li>
-                    <li><button onClick={handleLogout}>Logout</button></li>
-                  </ul>
-                </nav>
-              </div>
+              <>
+                <a
+                  href="https://www.investopedia.com/learn-how-to-trade-the-market-in-5-steps-4692230"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn to Trade
+                </a>
+                <button onClick={handleLogout}>Logout</button>
+              </>
             ) : (
-              <div className='header_nav'>
-                <nav>
-                  <ul>
-                    <li><Link to='/login'>Login</Link></li>
-                    <li><Link to='/signup'>Sign-Up</Link></li>
-                  </ul>
-                </nav>
-              </div>
+              <>
+                <Link to="/login">Login</Link>
+                <Link to="/signup">Sign Up</Link>
+              </>
             )}
-          </header>
+          </nav>
+        </header>
 
-          <main className="App-main">
-            <Routes>
-              <Route path="/login" element={!user ? <Login onLogin={handleLogin} /> : <Navigate to="/dashboard" />} />
-              <Route path="/signup" element={!user ? <SignUp onSignUp={handleSignUp} /> : <Navigate to='login' />} />
-              <Route 
-                path="/dashboard" 
-                element={
-                  user ? (
-                    <>
-                      <p>Welcome {user.name} to the world of Trading</p>
-                      <CryptoList 
-                        cryptoData={cryptoData} 
-                        onSelectCrypto={setSelectedCrypto}
-                        selectedCrypto={selectedCrypto}
-                      />
-                      {selectedCrypto && (
-                        <>
-                          <p>Price Tracking for {<img src={selectedCrypto.image} alt={selectedCrypto.name} />} {selectedCrypto.name}</p>
-                          <CryptoChart 
-                            crypto={selectedCrypto}
-                          />
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                } 
-              />
-              <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} />} />
-            </Routes>
-          </main>
+        <main className="App-main">
+          <Routes>
+            <Route
+              path="/login"
+              element={
+                !user ? <Login onLogin={setUser} /> : <Navigate to="/dashboard" />
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                !user ? <SignUp onSignUp={setUser} /> : <Navigate to="/dashboard" />
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                !user ? (
+                  <Navigate to="/login" />
+                ) : isLoading ? (
+                  <div className="loading">Loading market data…</div>
+                ) : error ? (
+                  <div className="error">
+                    <p>{error}</p>
+                    <button onClick={() => loadData()}>Try again</button>
+                  </div>
+                ) : (
+                  <Dashboard
+                    user={user}
+                    cryptoData={cryptoData}
+                    selectedCrypto={selectedCrypto}
+                    onSelectCrypto={setSelectedCrypto}
+                    lastUpdated={lastUpdated}
+                    onRefresh={() => loadData({ silent: true })}
+                    refreshing={refreshing}
+                  />
+                )
+              }
+            />
+            <Route
+              path="*"
+              element={<Navigate to={user ? '/dashboard' : '/login'} />}
+            />
+          </Routes>
+        </main>
 
-          <footer className="footer">
-            <p>&copy; 2024 CryptoCurrencyTracker. All rights reserved.</p>
-          </footer>
-        </div>
-      </Router>
-    </>
+        <footer className="footer">
+          <p>&copy; 2024 CryptoTracker · Data by CoinGecko</p>
+        </footer>
+      </div>
+    </Router>
   );
 }
 

@@ -1,45 +1,63 @@
-# CryptoTracker Website
+# CryptoTracker
 
-## Overview
-The CryptoTracker Website is a dynamic web application built for cryptocurrency enthusiasts and forex traders. 
-Utilizing **Node.js**, **React.js**, and the CoinGecko API, 
-this platform provides real-time market data for over 200 cryptocurrencies. W
-ith a focus on user experience, the application features dynamic data visualization for tracking transactions across 25+ crypto wallets.
+A React single-page app for tracking the top 100 cryptocurrencies in real time —
+live prices, 24h change, and interactive price-history charts, powered by the
+free [CoinGecko API](https://www.coingecko.com/en/api).
+
+![React](https://img.shields.io/badge/React-18-149eca)
 
 ## Features
-- **Real-Time Data**: Fetch and display real-time cryptocurrency market data using the CoinGecko API.
-- **Dynamic User Interface**: An intuitive interface tailored for forex traders, allowing easy access to critical market information.
-- **Data Visualization**: Interactive charts for visualizing transactions from multiple crypto wallets, powered by Chart.js.
-- **User Authentication**: Secure user registration and login functionality to allow personalized tracking and settings.
 
-## Tech Stack
-- **Frontend**: React.js, HTML, CSS, JavaScript
-- **Backend**: Node.js
-- **APIs**: CoinGecko API
-- **Data Visualization**: Chart.js
-- **Version Control**: Git, GitHub
+- **Live market data** — top 100 coins by market cap, auto-refreshing every 60s
+- **Search** coins by name or symbol
+- **Interactive charts** — 7 / 30 / 90-day price history (Chart.js)
+- **Auth flow** — demo login/signup with client-side persistence
+- **Responsive dark UI**
 
-## Installation
-To set up the CryptoTracker Website locally, follow these steps:
+> ⚠️ The auth is a **client-side demo only** (credentials live in `localStorage`
+> in plain text). Do not use it to protect real accounts.
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yourusername/cryptotracker.git
-Navigate to the project directory:
+## Getting started
 
-2. cd cryptotracker
-Install dependencies:
-
-3. npm install
-Set up environment variables: Create a .env file in the root of your project to store any necessary API keys or configuration details.
-
-Run the application:
-
+```bash
+npm install
 npm start
-![image](https://github.com/user-attachments/assets/aa34f307-d521-404d-a2c9-ca3e75da7600)
-![image](https://github.com/user-attachments/assets/b1da9318-09f2-4b2e-8c62-ed1fe4471e18)
+```
 
-![image](https://github.com/user-attachments/assets/dbd4fb48-c802-4bd7-a090-873a2278ce06)
+Open [http://localhost:3000](http://localhost:3000).
 
-![image](https://github.com/user-attachments/assets/96d1d7bc-03b2-45ba-9c99-e2d722872531)
+**Demo login:** `user@example.com` / `password123`
 
+## Scripts
+
+| Command         | Description                          |
+| --------------- | ------------------------------------ |
+| `npm start`     | Run the dev server                   |
+| `npm test`      | Run tests in watch mode              |
+| `npm run build` | Production build into `build/`       |
+
+## Project structure
+
+```
+src/
+├── api/cryptoApi.js          # CoinGecko data + history fetchers
+├── components/
+│   ├── CryptoList.js         # searchable coin list
+│   ├── CryptoChart.js        # price-history chart with range toggle
+│   ├── Login.js / signup.js  # auth screens
+│   └── authservice.js        # demo auth (localStorage)
+└── App.js                    # routing, data fetching, refresh
+```
+
+## Notes
+
+- Built with [Create React App](https://github.com/facebook/create-react-app).
+- CoinGecko's free tier is rate-limited; the app refreshes at a conservative
+  interval and surfaces a clear message if you hit the limit.
+
+## Screenshots
+
+![CryptoTracker screenshot](https://github.com/user-attachments/assets/aa34f307-d521-404d-a2c9-ca3e75da7600)
+![CryptoTracker screenshot](https://github.com/user-attachments/assets/b1da9318-09f2-4b2e-8c62-ed1fe4471e18)
+![CryptoTracker screenshot](https://github.com/user-attachments/assets/dbd4fb48-c802-4bd7-a090-873a2278ce06)
+![CryptoTracker screenshot](https://github.com/user-attachments/assets/96d1d7bc-03b2-45ba-9c99-e2d722872531)

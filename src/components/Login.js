@@ -1,61 +1,68 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import authService from './authservice.js';
-import './login.css';
-import './signup.js'
-
+import { useNavigate, Link } from 'react-router-dom';
+import authService from './authservice';
+import './auth.css';
 
 const Login = ({ onLogin }) => {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSubmitting(true);
     try {
-      const user = await authService.login(email, password, name);
+      const user = await authService.login(email, password);
       onLogin(user);
       navigate('/dashboard');
     } catch (err) {
-      setError('Invalid email or password');
+      setError(err.message || 'Invalid email or password');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Login to CryptoTracker</h2>
+    <div className="auth-container">
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <h2>Welcome back</h2>
+        <p className="auth-subtitle">Log in to track your crypto</p>
+
+        <label htmlFor="login-email">Email</label>
         <input
+          id="login-email"
           type="email"
-          placeholder="Email"
+          placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="email"
           required
         />
 
+        <label htmlFor="login-password">Password</label>
         <input
-          type="name"
-          placeholder="Username"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          id="login-password"
+          type="password"
+          placeholder="Your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
           required
         />
-          <ul>
-            <button type="submit">Login</button>
-          </ul>
-    
-        
-        
-        {error && <p className="error-message">{error}</p>}
+
+        <button type="submit" disabled={submitting}>
+          {submitting ? 'Logging in…' : 'Log in'}
+        </button>
+
+        {error && <p className="auth-error">{error}</p>}
+
+        <p className="auth-switch">
+          Don't have an account? <Link to="/signup">Sign up</Link>
+        </p>
+        <p className="auth-hint">Demo login: user@example.com / password123</p>
       </form>
     </div>
   );

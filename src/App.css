@@ -1,331 +1,188 @@
- 
-.App-header nav ul li a,
-.header_nav nav ul li,
-.App-header nav ul li button {
-  color: white;
-  text-decoration: none;
-  font-size: 1.5rem;
-  background: none;
-  border: 3rem;
-  cursor: pointer;
-  margin-right: 1rem;
+.App {
   display: flex;
-  text-shadow: 2px 2px #ff0000;
-
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-svg {
-  pointer-events: none;
-}
-
-.svg-container {
-  position: fixed; /* or absolute depending on your layout */
+/* ---------- Header ---------- */
+.App-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(19, 28, 48, 0.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* ensure SVG is behind other content */
+  z-index: 10;
 }
 
-.App {
-  z-index: 0; /* or a higher value */
-}
-
-
-body {
-  font-family: 'Arial', sans-serif;
-  /* background-color: #116ee7; */
-  background: rgb(20, 197, 171);;
-  margin:0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-}
-
-
-body {
-  background: radial-gradient(circle, rgba(3, 27, 99, 0.952) 0%, #042e52 100%);
-}
-
-svg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-}
-
-
-.App {
+.brand {
   display: flex;
-  flex-direction:column;
-  max-height: 100vh;
-}
-
-.App-header {
-  background: radial-gradient(circle, rgb(79, 79, 85) 0%, #042e52 100%);
-  color: rgb(140, 255, 150);
-  text-shadow: 6px 6px #000000;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center; /* Aligns items vertically */
-  justify-content: center; /* Centers both the image and text horizontally */
-}
-
-.App-header img {
-  height: 100px; /* Adjust the height */
-  width: auto; /* Maintain aspect ratio */
-  margin-right: 10px; /* Adds space between image and text */
-}
-
-.App-header h1 {
-  margin:0;
-  font-size: 7rem;
-  display: flex; /* Ensure text is inline */
-  vertical-align: middle;
-}
-
-h1 img{
-  vertical-align:auto
-}
-
-h1 img{
-  height: 100px;
-  width: auto;
-}
-/* 
-.App-header {
-  display: grid;
-  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 10px; /* Adjust spacing between image and text */
-
-
-.App-header nav ul td {
-  font-family: 'Arial', sans-serif;
-  padding:0.5rem;
-
-  font-size: 1.5rem;
-  list-style-type: disc ;
-  text-decoration: wavy;
-  text-decoration-color: #000205;
-  display: flex;
-  text-align: right;
-  text-spacing-trim: 5rem;
-  margin-left: 10px
-}
-
-.App-header nav ul {
-  display:flex;
-  margin: 0;
-  list-style-type: none;
-  padding: 0;
-}
-
-.App-header nav{
-  color: white;
-  text-align: left;
+  gap: 0.6rem;
   text-decoration: none;
-  position: absolute;
-  right:20px;
-  
+  color: var(--text);
 }
 
-
-.App-header nav ul li a tr{
-  font-size: 5rem;
-  text-align: left;
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #0ea5e9);
+  color: #04121a;
+  font-size: 1.3rem;
+  font-weight: 800;
 }
 
-.App-header h1 {
-  margin: 0rem;
-  font-size: 5rem;
-  text-align: center;
-  /* text-decoration: wavy;
-  text-decoration-style: dotted; */
+.brand__name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-
-
-
-
-.App-main p {
-  margin: 2;
-  font-size: 2rem;
-  text-align: center;
-  text-decoration: wavy;
-  color: #ecf0f1;
-  font-family: cursive;
-  text-shadow: 2px 2px #ff0000;
-}
-
-
-p img {
-  vertical-align: middle;
-  width: auto;
-  height: 35px
-}
-
-
-
-.App-main {
-  display: table-row;
-  table-layout:auto;
-  padding: rem;
-}
-
-.crypto-container {
-  flex: 3;
+.App-header nav {
   display: flex;
-  gap: 1rem;
-}
-
-.loading, .error {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  font-size: 1.2rem;
-  color: #34495e;
+  gap: 0.5rem;
+}
+
+.App-header nav a,
+.App-header nav button {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.App-header nav a:hover,
+.App-header nav button:hover {
+  color: var(--text);
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+/* ---------- Main ---------- */
+.App-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* ---------- Dashboard ---------- */
+.dashboard-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.welcome {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+.welcome strong {
+  color: var(--text);
+}
+
+.dashboard-bar__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.updated {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.refresh-btn {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- States ---------- */
+.loading,
+.error {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  font-size: 1.05rem;
+  color: var(--text-muted);
 }
 
 .error {
-  color: #e74c3c;
+  color: var(--negative);
 }
 
-/* CryptoList.css */
-.crypto-list {
-  background-color: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  flex: 1;
-}
-
-.crypto-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  border-bottom: 1px solid #ecf0f1;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.crypto-item:hover {
-  background-color: #f7f9fa;
-}
-
-/* CryptoChart.css */
-.crypto-chart {
-  background-color: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  flex: 2;
-}
-
-.App-main p img {
-  width: 30px;
-  height: 30px;
-  margin-right: 2px;
-}
-
-
-/* Login.css */
-.login-Container{
-  width: 150%;
-  max-width: 60rem;
-}
-.login-form {
-  display: flex;
-  padding: 10rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 150%;
-  max-width: 60rem;
-  
-  gap: 1rem;
-  flex-direction: center;
-  align-items: center;
-  vertical-align: middle;
-  display: flex;
-  justify-content: center;
-  background: rgb(157, 190, 103);;
-}
-
-.login-form input {
-  padding: 0.5rem;
-  border: 1px solid #266a97;
-  border-radius: 2rem;
-  width: 200px;
-}
-
-.login-form button {
-  padding: 0.5rem;
-  width: 220px;
-  background-color: #3498db;
-  color: white;
+.error button,
+.chart-state button {
+  background: var(--accent);
+  color: #04121a;
   border: none;
-  border-radius: 1.5rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.login-form button:hover {
-  background-color: #116196;
-}
-
-/* NotificationChat.css */
-.notification-chat {
-  background-color: white;
   border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  flex: 1;
-  margin-left: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 1rem;
-}
-
-.chat-input {
-  display: flex;
-}
-
-.chat-input input {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px 0 0 4px;
-}
-
-.chat-input button {
-  padding: 0.5rem 1rem;
-  background-color: #2ecc71;
-  color: white;
-  border: none;
-  border-radius: 0 4px 4px 0;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
-.chat-input button:hover {
-  background-color: #27ae60;
-}
-
-
-
+/* ---------- Footer ---------- */
 .footer {
-  background-color: #333;
-  color: rgb(140, 255, 150);
   text-align: center;
-  padding: 0rem;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  padding: 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+
+.footer p {
+  margin: 0;
 }

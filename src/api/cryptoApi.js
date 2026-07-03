@@ -2,83 +2,51 @@ import axios from 'axios';
 
 const API_URL = 'https://api.coingecko.com/api/v3';
 
+const client = axios.create({
+  baseURL: API_URL,
+  timeout: 15000,
+});
+
+// Turn axios errors into human-friendly messages (CoinGecko's free tier
+// rate-limits aggressively, so surface that clearly).
+const toFriendlyError = (error, fallback) => {
+  if (error.response) {
+    if (error.response.status === 429) {
+      return new Error('Rate limit reached. Please wait a moment and try again.');
+    }
+    return new Error(`${fallback} (server responded ${error.response.status}).`);
+  }
+  if (error.request) {
+    return new Error('Network error — check your internet connection.');
+  }
+  return new Error(fallback);
+};
+
 export const fetchCryptoData = async () => {
   try {
-    console.log('Fetching crypto data...');
-    const response = await axios.get(`${API_URL}/coins/markets`, {
+    const response = await client.get('/coins/markets', {
       params: {
         vs_currency: 'usd',
         order: 'market_cap_desc',
-        per_page: 200,
+        per_page: 100,
         page: 1,
-        sparkline: false
-      }
+        sparkline: true,
+        price_change_percentage: '24h',
+      },
     });
-    console.log('Crypto data fetched successfully');
     return response.data;
   } catch (error) {
-    console.error('Error fetching crypto data:', error.message);
-    if (error.response) {
-      console.error('Response data:', error.response.data);
-      console.error('Response status:', error.response.status);
-    }
-    throw error;
+    throw toFriendlyError(error, 'Failed to fetch cryptocurrency data');
   }
 };
 
-// export const fetchCryptoData = async () => {
-//   try {
-//     const response = await axios.get(`${API_URL}/coins/markets`, {
-//       params: {
-//         vs_currency: 'usd',
-//         order: 'market_cap_desc',
-//         per_page: 10,
-//         page: 1,
-//         sparkline: false
-//       },
-//       timeout: 10000 // Set a timeout of 10 seconds
-//     });
-//     return response.data;
-//   } catch (error) {
-//     if (error.response) {
-//       // The request was made and the server responded with a status code
-//       // that falls out of the range of 2xx
-//       throw new Error(`API Error: ${error.response.status} - ${error.response.data.error}`);
-//     } else if (error.request) {
-//       // The request was made but no response was received
-//       throw new Error('Network Error: No response received from the server. Please check your internet connection.');
-//     } else {
-//       // Something happened in setting up the request that triggered an Error
-//       throw new Error(`Request Error: ${error.message}`);
-//     }
-//   }
-// };
-
-
-
-
-
-
-export const fetchCryptoHistory = async (id) => {
+export const fetchCryptoHistory = async (id, days = 30) => {
   try {
-    console.log(`Fetching history for crypto id: ${id}`);
-    const response = await axios.get(`${API_URL}/coins/${id}/market_chart`, {
-      params: {
-        vs_currency: 'usd',
-        days: 30
-      }
+    const response = await client.get(`/coins/${id}/market_chart`, {
+      params: { vs_currency: 'usd', days },
     });
-    console.log('Crypto history fetched successfully');
     return response.data.prices;
   } catch (error) {
-    console.error('Error fetching crypto history:', error.message);
-    if (error.response) {
-      console.error('Response data:', error.response.data);
-      console.error('Response status:', error.response.status);
-    }
-    throw error;
+    throw toFriendlyError(error, 'Failed to fetch price history');
   }
 };
-
-
-

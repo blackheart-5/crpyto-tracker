@@ -8,14 +8,11 @@
     "@testing-library/user-event": "^14.5.2",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
-    "gsap": "^3.12.5",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
     "react-scripts": "^5.0.1",
-    "react-ui": "^1.0.0-beta.32",
-    "ui": "^0.2.4",
     "web-vitals": "^4.2.3"
   },
   "scripts": {
@@ -28,6 +25,11 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios)/"
     ]
   },
   "browserslist": {

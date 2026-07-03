@@ -1,68 +1,80 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import authService from './authservice';
-import './login.css'; // We'll use the same CSS as the Login component
-import App from '../App'
+import './auth.css';
 
 const SignUp = ({ onSignUp }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('') //do
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSubmitting(true);
     try {
       const user = await authService.signUp(email, password, name);
       onSignUp(user);
       navigate('/dashboard');
     } catch (err) {
-      setError(err);
+      setError(err.message || 'Could not create account');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <nav>
-          <ul>
-            <h2>Sign Up</h2>
-          </ul>
-          <ul>
+    <div className="auth-container">
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <h2>Create an account</h2>
+        <p className="auth-subtitle">Start tracking the market in seconds</p>
 
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-          </ul>
-          <ul>
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </ul>
-          <ul>  
-            <input
-              type="name"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </ul>
-          <ul>
-            <button type="submit">Sign Up</button>
-          </ul>
-        </nav>
+        <label htmlFor="signup-name">Name</label>
+        <input
+          id="signup-name"
+          type="text"
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          autoComplete="name"
+          required
+        />
 
-        {error && <p className="error-message">{error}</p>}
+        <label htmlFor="signup-email">Email</label>
+        <input
+          id="signup-email"
+          type="email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          required
+        />
+
+        <label htmlFor="signup-password">Password</label>
+        <input
+          id="signup-password"
+          type="password"
+          placeholder="Choose a password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="new-password"
+          minLength={6}
+          required
+        />
+
+        <button type="submit" disabled={submitting}>
+          {submitting ? 'Creating account…' : 'Sign up'}
+        </button>
+
+        {error && <p className="auth-error">{error}</p>}
+
+        <p className="auth-switch">
+          Already have an account? <Link to="/login">Log in</Link>
+        </p>
       </form>
     </div>
   );
