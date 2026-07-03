@@ -11,6 +11,10 @@ free [CoinGecko API](https://www.coingecko.com/en/api).
 - **Live market data** — top 100 coins by market cap, auto-refreshing every 60s
 - **Search** coins by name or symbol
 - **Interactive charts** — 7 / 30 / 90-day price history (Chart.js)
+- **Portfolio tracker** — add holdings and see total value, weighted 24h change,
+  cost basis, and profit/loss ($ and %) with an allocation doughnut chart. Uses a
+  weighted-average cost basis when you add to a coin you already hold, persists
+  per-user in `localStorage`, and reuses the fetched market data (no extra API calls)
 - **Auth flow** — demo login/signup with client-side persistence
 - **Responsive dark UI**
 
@@ -44,6 +48,8 @@ src/
 ├── components/
 │   ├── CryptoList.js         # searchable coin list
 │   ├── CryptoChart.js        # price-history chart with range toggle
+│   ├── Portfolio.js          # holdings, P/L metrics, allocation chart
+│   ├── portfolioService.js   # per-user portfolio persistence (localStorage)
 │   ├── Login.js / signup.js  # auth screens
 │   └── authservice.js        # demo auth (localStorage)
 └── App.js                    # routing, data fetching, refresh
